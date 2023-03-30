@@ -6,6 +6,23 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+let appInsights = require('applicationinsights');
+const dotenv = require('dotenv');
+dotenv.config();
+
+console.log('APPLICATIONINSIGHTS_CONNECTION_STRING'+process.env.APPLICATIONINSIGHTS_CONNECTION_STRING);
+
+appInsights.setup(process.env.APPLICATIONINSIGHTS_CONNECTION_STRING)
+.setAutoDependencyCorrelation(true)
+.setAutoCollectRequests(true)
+.setAutoCollectPerformance(true, true)
+.setAutoCollectExceptions(true)
+.setAutoCollectDependencies(true)
+.setAutoCollectConsole(true)
+.setUseDiskRetryCaching(true)
+.setSendLiveMetrics(false)
+.setDistributedTracingMode(appInsights.DistributedTracingModes.AI)
+.start();
 
 var app = express();
 
